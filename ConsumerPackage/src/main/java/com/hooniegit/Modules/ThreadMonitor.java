@@ -18,7 +18,6 @@ import com.hooniegit.Consumer.ConsumerGroup;
  */
 
 public class ThreadMonitor {
-	private static ConsumerGroup group;
     private static final int THREAD_THRESHOLD_ACTIVE = ConsumerConfig.getRange() * 22 + 9;
     private static final int THREAD_THRESHOLD_DAEMON = ConsumerConfig.getRange() + 7;
     private static final Logger logger = LogManager.getLogger(ThreadMonitor.class);
@@ -46,7 +45,6 @@ public class ThreadMonitor {
         // 자동 복구 기능이 동작하지 않는 상황으로 예상되기 때문에 후속 조치가 필요합니다.
         if (activeThreadCount < THREAD_THRESHOLD_ACTIVE | daemonThreadCount < THREAD_THRESHOLD_DAEMON) {
         	logger.error("[Expected] Less Threads: Thread is Deprecated.");
-        	group.startNewConsumer();
         } else if (activeThreadCount > THREAD_THRESHOLD_ACTIVE | daemonThreadCount > THREAD_THRESHOLD_DAEMON) {
         	logger.warn("[Expected] More Threads: Too Many Threads.");
         }
