@@ -29,10 +29,9 @@ import org.apache.kafka.common.errors.WakeupException;
 import com.hooniegit.LMAX.*;
 
 /**
- * 해당 스크립트에서 단일 'Consumer Thread'를 구성합니다. 
- * - 'Consumer Thread' 내부에서 Consumer 객체를 관리합니다.
+ * 해당 스크립트에서 단일 컨슈머 스레드를 구성합니다. 
  * - 수신한 데이터를 기반으로 작업 스레드(역직렬화 로직 포함)를 병렬 실행합니다.
- * - Offset Commit 과정은 수동으로 진행합니다.
+ * - 오프셋 커밋 과정은 수동으로 진행합니다.
  */
 
 public class ConsumerThread implements Runnable {
@@ -45,8 +44,7 @@ public class ConsumerThread implements Runnable {
 	private RingBuffer<TaskEvent> ringBuffer;
 
 	public ConsumerThread(Properties props, String topic, ExecutorService executor) {
-		
-		// TaskEvent 객체 기반의 Disruptor를 구성합니다.
+		// TaskEvent 객체 기반의 디스럽터를 구성합니다.
         ThreadFactory threadFactory = Executors.defaultThreadFactory();
         Disruptor<TaskEvent> disruptor = new Disruptor<>(
                 TaskEvent::new,
@@ -56,8 +54,7 @@ public class ConsumerThread implements Runnable {
                 new BlockingWaitStrategy() // SleepingWaitStrategy 또는 BlockingWaitStrategy 전략을 사용합니다.
         );
         
-        // 복수의 이벤트 핸들러를 추가해 시스템 병목을 방지합니다.
-        // (이벤트 핸들러의 수는 배포 환경에 따라 변동될 수 있습니다)
+        // 복수의 이벤트 핸들러를 추가하고, 이를 기반으로 링 버퍼를 구성합니다.
         WorkHandler<TaskEvent>[] handlers = new TaskEventHandler[20];
         for (int i = 0; i < handlers.length; i++) {
             handlers[i] = new TaskEventHandler();
@@ -74,13 +71,13 @@ public class ConsumerThread implements Runnable {
 	
 	// 리밸런싱 발생 시 컨슈머 스레드에서 수행할 작업을 정의합니다.
 	private class HandleRebalance implements ConsumerRebalanceListener{
-		// 파티션이 추가되었을 경우, 
+		// 파티션이 추가되었을 경우:  
 		public void onPartitionsAssigned(Collection<TopicPartition>partitions) {
-			
 		}
 		
-		// 파티션이 제거되었을 경우, 서버에 현재 오프셋 정보를 커밋합니다.
+		// 파티션이 제거되었을 경우:
 		public void onPartitionsRevoked(Collection<TopicPartition>partitions) {
+			// 서버에 현재 오프셋 정보를 커밋합니다.
 			consumer.commitSync(currentOffsets);
 		}
 	}
@@ -118,14 +115,14 @@ public class ConsumerThread implements Runnable {
 				// 스레드에 문제가 생기면 오프셋 정보를 서버에 커밋합니다.
 				consumer.commitSync(currentOffsets);
 			} finally {
-				// Consumer 객체를 종료하고, 
+				// 컨슈머 객체를 종료하고, 그룹이 새로운 컨슈머를 생성하도록 지시합니다. 
 				consumer.close();
 				group.notifyConsumerError(this);
 			}
 		}
 	}
 	
-	// 스레드에 문제가 발생할 경우 poll 작업을 중단시킵니다.
+	// 스레드에 문제가 발생하면 poll 작업을 중단시킵니다.
     public void shutdown() {
         consumer.wakeup();
     }

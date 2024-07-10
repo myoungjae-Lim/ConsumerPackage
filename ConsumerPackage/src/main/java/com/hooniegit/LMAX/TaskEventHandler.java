@@ -12,10 +12,10 @@ import java.util.List;
 
 /**
  * 해당 스크립트에서 수신 데이터를 역직렬화하고, 해당 데이터를 기반으로 작업을 실행합니다.
- * - 모든 작업은 직렬화가 완료된 후에 실행이 가능합니다.
- * - 데이터 가공 및 전송 로직은 메인 이벤트 스레드에서 실행합니다.
- * - 기타 로직은 별도의 스레드를 열어 실행합니다.
+ * - 주요 작업에 소요되는 시간을 측정 및 로깅합니다.
+ * - 데이터 가공 및 전송 로직은 메인 이벤트 스레드에서, 기타 로직은 별도의 스레드를 열어 실행합니다.
  */
+
 public class TaskEventHandler implements WorkHandler<TaskEvent> {
     private static final Logger logger = LogManager.getLogger(TaskEventHandler.class);
 
@@ -36,7 +36,7 @@ public class TaskEventHandler implements WorkHandler<TaskEvent> {
         measureExecutionTime(() -> {
             ConsumerRecord<String, String> record = event.getRecord();
 
-            // TEST
+            // TEST: 콘솔에 수신 데이터를 출력합니다.
             System.out.println("Receive message: " + record.value() + ", Partition: "
                     + record.partition() + ", Offset: " + record.offset() + ", by ThreadID: "
                     + Thread.currentThread().getId());

@@ -11,11 +11,10 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * 해당 스크립트에서 역직렬화한 데이터로 수행할 작업을 정의합니다.
- * - 이 곳에 실제로 사용할 기능의 메서드를 추가해야 합니다.
- * - 각 작업은 별도의 스레드를 통해 실행됩니다.
  * - 해당 클래스에서는 인스턴스를 구성하지 않고 static 메서드를 정의해서 사용합니다.
+ * - 해당 클래스 내 메서드는 가급적 사용하지 않습니다.
+ * - 각 작업은 별도의 스레드를 통해 실행됩니다.
  */
-
 
 public class Tasks {
     private static final Logger logger = LogManager.getLogger(Tasks.class);

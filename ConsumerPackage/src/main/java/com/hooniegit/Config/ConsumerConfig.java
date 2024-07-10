@@ -29,6 +29,7 @@ public class ConsumerConfig {
 	}
 	
 	public static Properties getProps() {
+		// 외부의 srvr.ini 파일을 통해 인스턴스 정보를 호출합니다.
 		File fileToParse = new File("src\\main\\java\\com\\hooniegit\\Config\\srvr.ini");
 		try {
 			Ini ini = new Ini(fileToParse);

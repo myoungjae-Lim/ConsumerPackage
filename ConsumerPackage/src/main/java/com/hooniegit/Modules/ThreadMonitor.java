@@ -12,8 +12,8 @@ import org.apache.logging.log4j.Logger;
 import com.hooniegit.Config.ConsumerConfig;
 
 /**
- * 해당 스크립트에서 스레드 개수를 측정하고 기타 기능을 수행합니다.
- * - 
+ * 해당 스크립트에서 현재 실행중인 스레드의 개수를 측정하고 기타 기능을 수행합니다.
+ * - 스레드 개수에 이상이 있는 경우 로깅을 수행합니다.
  */
 
 public class ThreadMonitor {
@@ -22,7 +22,7 @@ public class ThreadMonitor {
     private static final Logger logger = LogManager.getLogger(ThreadMonitor.class);
 
     public static void startGenerating() {
-        // 스케줄러를 통해 5초에 1번씩 메서드를 실행합니다.
+        // 스케줄러를 통해 60초에 1번씩 메서드를 실행합니다.
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(ThreadMonitor::measureThreads, 0, 5, TimeUnit.SECONDS);
     }
