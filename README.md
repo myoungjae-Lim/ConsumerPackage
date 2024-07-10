@@ -14,4 +14,4 @@ Apache Kafka 서버에 발행되는 대용량의 데이터를 OPC 서버로 전�
 - LMAX Disruptor v3.4.4 <br>
 
 # 아키텍처 구성(수정 중)
-![스크린샷 2024-07-10 084817](https://github.com/hooniegit/ConsumerPackage/assets/130134750/13431057-3095-495f-a31e-18bdd7c189f3)
+![스크린샷 2024-07-10 084817](https://github.com/hooniegit/ConsumerPackage/assets/130134750/1480c5d7-b9a5-4e38-a176-a7acce2702e8)
