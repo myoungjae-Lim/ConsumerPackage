@@ -1,2 +1,6 @@
 # Config Files
 **/srvr.ini
+
+# Log Files
+**/*.Log
+**/*.json
