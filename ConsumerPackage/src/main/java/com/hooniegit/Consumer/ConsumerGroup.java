@@ -6,6 +6,9 @@ import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.hooniegit.Config.ConsumerConfig;
 
 /**
@@ -18,6 +21,7 @@ public final class ConsumerGroup {
 	private final String topic;
 	private ExecutorService executor = Executors.newCachedThreadPool();
 	private List<ConsumerThread> consumers;
+	private static final Logger logger = LogManager.getLogger(ConsumerGroup.class);
 
 	// 그룹 인스턴스 생성 시 컨슈머를 실행합니다.
 	public ConsumerGroup(String topic, int numberOfConsumers) {		
@@ -34,12 +38,14 @@ public final class ConsumerGroup {
         ConsumerThread consumer = new ConsumerThread(this.props, this.topic, this.executor);
         consumers.add(consumer);
         executor.submit(consumer);
+        logger.info("[Expected] Started New Consumer.");
     }
 
     // 문제가 되는 컨슈머를 리스트에서 삭제하고, 새로운 컨슈머를 등록 및 실행합니다.
     public void notifyConsumerError(ConsumerThread consumer) {
         consumers.remove(consumer);
         startNewConsumer();
+        logger.info("[Expected] Removed Target Consumer & Started New Consumer.");
     }
 
     // 문제 상황 발생 시 컨슈머 스레드를 종료시킵니다.
@@ -48,5 +54,6 @@ public final class ConsumerGroup {
             consumer.shutdown();
         }
         executor.shutdown();
+        logger.info("[Expected] Shut Down Target Consumer Thread.");
     }
 }

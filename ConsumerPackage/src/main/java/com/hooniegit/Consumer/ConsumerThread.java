@@ -25,8 +25,11 @@ import org.apache.kafka.clients.consumer.ConsumerRebalanceListener;
 
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.errors.WakeupException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.hooniegit.LMAX.*;
+import com.hooniegit.Modules.ThreadMonitor;
 
 /**
  * 해당 스크립트에서 단일 컨슈머 스레드를 구성합니다. 
@@ -42,6 +45,7 @@ public class ConsumerThread implements Runnable {
 	private final AtomicBoolean running = new AtomicBoolean(true);
 	private ConsumerGroup group;
 	private RingBuffer<TaskEvent> ringBuffer;
+	private static final Logger logger = LogManager.getLogger(ConsumerThread.class);
 
 	public ConsumerThread(Properties props, String topic, ExecutorService executor) {
 		// TaskEvent 객체 기반의 디스럽터를 구성합니다.
@@ -107,9 +111,11 @@ public class ConsumerThread implements Runnable {
 				consumer.commitAsync(currentOffsets, null);
 			}
 		} catch (WakeupException e) {
-			
+			String message = "[Expected] Wakeup Activated.";
+			logger.error(message);
 		} catch (Exception e) {
-
+			String message = String.format("[Others] %s", e.getMessage());
+			logger.error(message);
 		} finally {
 			try {
 				// 스레드에 문제가 생기면 오프셋 정보를 서버에 커밋합니다.
