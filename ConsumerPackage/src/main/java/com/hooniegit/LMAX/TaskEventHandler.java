@@ -6,8 +6,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.hooniegit.Tasks.*;
 
+import java.text.SimpleDateFormat;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,6 +20,7 @@ import java.util.List;
 
 public class TaskEventHandler implements WorkHandler<TaskEvent> {
     private static final Logger logger = LogManager.getLogger(TaskEventHandler.class);
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
     // 경과 시간을 측정하고 로그를 남깁니다.
     public void measureExecutionTime(Runnable task) {
@@ -35,29 +38,38 @@ public class TaskEventHandler implements WorkHandler<TaskEvent> {
     public void onEvent(TaskEvent event) {
         measureExecutionTime(() -> {
             ConsumerRecord<String, String> record = event.getRecord();
-
-            // TEST: 콘솔에 수신 데이터를 출력합니다.
-            System.out.println("Receive message: " + record.value() + ", Partition: "
-                    + record.partition() + ", Offset: " + record.offset() + ", by ThreadID: "
-                    + Thread.currentThread().getId());
+//            
+//            // TEST: 콘솔에 수신 데이터를 출력합니다.
+            Date date = new Date(record.timestamp());
+            System.out.println("Received, Partition: "
+                    + record.partition() + ", Offset: " + record.offset() + 
+                    ", timestamp: " + sdf.format(date) +
+                    ", by ThreadID: " + Thread.currentThread().getId());
+            
+//            System.out.println("Receive message: " + record.value() + ", Partition: "
+//                    + record.partition() + ", Offset: " + record.offset() + ", by ThreadID: "
+//                    + Thread.currentThread().getId());
 
             // ** 이 곳에 데이터 역직렬화 로직(deserialize)이 포함되어야 합니다. **
 
             // ** 이 곳에 데이터 가공 및 전송 로직이 포함되어야 합니다. **
 
             // 기타 로직을 스레드로 구성하고 실행합니다.
-            List<Thread> threadList = new ArrayList<>();
-            threadList.add(new Thread(() -> {
-                try {
-                    Tasks.SAMPLE_FileWriter(record);
-                } catch (IOException e) {
-                    logger.error("Error in SAMPLE_FileWriter", e);
-                }
-            }));
-            threadList.add(new Thread(Tasks::SAMPLE_Hello));
-            for (Thread thread : threadList) {
-                thread.start();
-            }
+//            List<Thread> threadList = new ArrayList<>();
+//            threadList.add(new Thread(() -> {
+//                try {
+//                    Tasks.SAMPLE_FileWriter(record);
+//                } catch (IOException e) {
+//                    logger.error("Error in SAMPLE_FileWriter", e);
+//                }
+//            }));
+//            threadList.add(new Thread(Tasks::SAMPLE_Hello));
+//            for (Thread thread : threadList) {
+//                thread.start();
+//            }
+        	
+            // 해당 부분은 도움이 되지 않음
+        	event.clear();
         });
     }
 

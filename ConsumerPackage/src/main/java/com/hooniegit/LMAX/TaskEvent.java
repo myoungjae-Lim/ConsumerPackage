@@ -23,5 +23,10 @@ public class TaskEvent {
         this.record = record;
     }
     
+    public void clear() {
+        // 클린업 로직
+        this.record = null;
+    }
+    
     public final static EventFactory<TaskEvent> EVENT_FACTORY = TaskEvent::new;
 }

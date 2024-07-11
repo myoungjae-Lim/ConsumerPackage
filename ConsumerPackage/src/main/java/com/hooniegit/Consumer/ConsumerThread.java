@@ -107,7 +107,9 @@ public class ConsumerThread implements Runnable {
 							new OffsetAndMetadata(record.offset()+1, null));
 					
 				} 
-				// 수동으로 오프셋을 커밋합니다.
+				
+				// 객체를 초기화하고 수동으로 오프셋을 커밋합니다.
+				records = null;
 				consumer.commitAsync(currentOffsets, null);
 			}
 		} catch (WakeupException e) {
