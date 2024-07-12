@@ -68,7 +68,7 @@ public class TaskEventHandler implements WorkHandler<TaskEvent> {
 //                thread.start();
 //            }
         	
-            // 해당 부분은 도움이 되지 않음
+            // 완료된 이벤트 객체를 초기화합니다.
         	event.clear();
         });
     }
