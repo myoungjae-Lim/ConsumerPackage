@@ -37,7 +37,7 @@ public class TaskEventHandler implements WorkHandler<TaskEvent> {
     @Override
     public void onEvent(TaskEvent event) {
         measureExecutionTime(() -> {
-            ConsumerRecord<String, String> record = event.getRecord();
+            ConsumerRecord<byte[], byte[]> record = event.getRecord();
 //            
 //            // TEST: 콘솔에 수신 데이터를 출력합니다.
             Date date = new Date(record.timestamp());

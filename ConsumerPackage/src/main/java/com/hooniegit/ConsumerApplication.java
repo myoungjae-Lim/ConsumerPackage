@@ -4,6 +4,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import com.hooniegit.Consumer.ConsumerGroup;
+import com.hooniegit.Modules.GarbageCollection;
 import com.hooniegit.Modules.ThreadMonitor;
 import com.hooniegit.Config.ConsumerConfig;
 
@@ -20,6 +21,8 @@ public class ConsumerApplication {
 		String topic = ConsumerConfig.getTopic();
 		int range = ConsumerConfig.getRange();
 		ConsumerGroup group = new ConsumerGroup(topic, range);
+		
+		GarbageCollection.run();
 		
 		// 사용중인 스레드 개수를 모니터링합니다.
 		ThreadMonitor.startGenerating();

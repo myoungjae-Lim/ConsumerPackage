@@ -11,15 +11,15 @@ import com.lmax.disruptor.EventFactory;
 
 public class TaskEvent {
 	// ** 데이터 형식자<Key, Message>는 기업 표준으로 수정되어야 합니다 **
-    private ConsumerRecord<String, String> record;
+    private ConsumerRecord<byte[], byte[]> record;
 
     // ** 데이터 형식자<Key, Message>는 기업 표준으로 수정되어야 합니다 **
-    public ConsumerRecord<String, String> getRecord() {
+    public ConsumerRecord<byte[], byte[]> getRecord() {
         return record;
     }
 
     // ** 데이터 형식자<Key, Message>는 기업 표준으로 수정되어야 합니다 **
-    public void setRecord(ConsumerRecord<String, String> record) {
+    public void setRecord(ConsumerRecord<byte[], byte[]> record) {
         this.record = record;
     }
     

@@ -39,7 +39,7 @@ import com.hooniegit.Modules.ThreadMonitor;
 
 public class ConsumerThread implements Runnable {
 	// ** 데이터 형식자<Key, Message>는 기업 표준으로 수정되어야 합니다 **
-	private final KafkaConsumer<String, String> consumer;
+	private final KafkaConsumer<byte[], byte[]> consumer;
 	private final String topic;
 	private Map<TopicPartition, OffsetAndMetadata> currentOffsets = new HashMap<>();
 	private final AtomicBoolean running = new AtomicBoolean(true);
@@ -92,11 +92,11 @@ public class ConsumerThread implements Runnable {
 			while (running.get()) {
 				// poll 작업을 수행하고, 반환값을 기반으로 ConsumerRecords 객체로 구성합니다.
 				// ** 데이터 형식자<Key, Message>는 기업 표준으로 수정되어야 합니다 **
-				ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+				ConsumerRecords<byte[], byte[]> records = consumer.poll(Duration.ofMillis(100));
 				
 				// 수신 데이터를 기반으로 한 작업 스레드를 시작합니다.
 				// ** 데이터 형식자<Key, Message>는 기업 표준으로 수정되어야 합니다 **
-				for (ConsumerRecord<String, String> record : records) {
+				for (ConsumerRecord<byte[], byte[]> record : records) {
 					
 					// 링 버퍼를 통해 이벤트 핸들러에 이벤트를 전달합니다.
 					ringBuffer.publishEvent((event, sequence) -> event.setRecord(record));

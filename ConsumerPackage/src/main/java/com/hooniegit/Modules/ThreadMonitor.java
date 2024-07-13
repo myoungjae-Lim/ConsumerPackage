@@ -18,14 +18,14 @@ import com.hooniegit.Consumer.ConsumerGroup;
  */
 
 public class ThreadMonitor {
-    private static final int THREAD_THRESHOLD_ACTIVE = ConsumerConfig.getRange() * 22 + 9;
+    private static final int THREAD_THRESHOLD_ACTIVE = ConsumerConfig.getRange() * 22 + 10;
     private static final int THREAD_THRESHOLD_DAEMON = ConsumerConfig.getRange() + 7;
     private static final Logger logger = LogManager.getLogger(ThreadMonitor.class);
 
     public static void startGenerating() {
         // 스케줄러를 통해 60초에 1번씩 메서드를 실행합니다.
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(ThreadMonitor::measureThreads, 0, 5, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(ThreadMonitor::measureThreads, 0, 10, TimeUnit.SECONDS);
     }
 
     public static void measureThreads() {
