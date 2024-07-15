@@ -11,9 +11,13 @@ Will Transport Datas to OPC Server. <br>
 - Kafka Springframework
 - Aspectj(aspectjrt, aspectjweaver)
 - LMAX Disruptor
-- grpc
+- grpc : Not Added Yet..
 - ini4j
 - Log4j2 <br>
+
+### Applications
+- Consumer: Kafka Consumer Based on @Service Annotation
+- ConsumerPackage: Kafka Consumer Based on Multi-Threads (Classic) <br>
 
 # Run
 ### Settings
