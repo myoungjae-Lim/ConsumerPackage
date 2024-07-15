@@ -39,7 +39,7 @@ sudo vi /etc/hosts
 ``` bash
 -Xms512m 
 -Xmx9192m # 1GB is Enough 
--XX:+UnlockExperimentalVMOptions # Importatn
+-XX:+UnlockExperimentalVMOptions # Important
 -XX:+UseZGC # Important
 -XX:+HeapDumpOnOutOfMemoryError 
 -XX:HeapDumpPath=Path\To\Your\HeapDump\dump.hprof 
