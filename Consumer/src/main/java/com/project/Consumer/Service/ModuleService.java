@@ -9,7 +9,7 @@ import com.project.Consumer.Module.Monitor;
 public class ModuleService {
 	public void backgroundTasks() { 
 		// [Activate] GC
-		GarbageCollector.run();
+//		GarbageCollector.run();
 		
 		// [Activate] Thread Monitor
 		Monitor.run();

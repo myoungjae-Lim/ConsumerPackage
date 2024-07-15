@@ -37,7 +37,7 @@ public class DefaultService {
                 ProducerType.SINGLE,
                 new BlockingWaitStrategy() // SleepingWaitStrategy or BlockingWaitStrategy
         );
-        WorkHandler<TaskEvent>[] handlers = new TaskEventHandler[5]; // add if NECESSARY
+        WorkHandler<TaskEvent>[] handlers = new TaskEventHandler[20]; // add if NECESSARY
         for (int i = 0; i < handlers.length; i++) {
             handlers[i] = new TaskEventHandler();
         }
@@ -74,6 +74,7 @@ public class DefaultService {
         });
         
         // [Initialize]
+        future = null;
         consumer = null;
         
 //        // [Commit/Manual] Offset

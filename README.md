@@ -33,3 +33,13 @@ sudo vi /etc/hosts
 # 예) 123.123.45.67  Workspace
 000.000.000.000    <DomainName>
 ```
+
+### VM arguments
+``` bash
+-Xms512m 
+-Xmx9192m # 1GB is Enough 
+-XX:+UnlockExperimentalVMOptions # Importatn
+-XX:+UseZGC # Important
+-XX:+HeapDumpOnOutOfMemoryError 
+-XX:HeapDumpPath=Path\To\Your\HeapDump\dump.hprof 
+```
